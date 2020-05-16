@@ -2,8 +2,11 @@
 package it.polito.tdp.borders;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.borders.model.Country;
 import it.polito.tdp.borders.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,6 +31,28 @@ public class FXMLController {
 
     @FXML
     void doCalcolaConfini(ActionEvent event) {
+    	txtResult.clear();
+    	int anno=0;
+    	List<Country> nazioni; 
+    	
+    	try {
+			anno= Integer.parseInt(txtAnno.getText());
+		} catch (NumberFormatException nfe) {
+			txtResult.appendText("Scegli un numero intero figlio di puttana");
+		}
+    	
+    	if(anno<1816 || anno>2016) {
+    		txtResult.appendText("Un numero compreso tra 1816 e 2016 lurido bastardo");
+    	}
+    	
+    	nazioni=new ArrayList<>(model.getListaNazionii(anno));
+    	
+    	for(Country c : nazioni ) {
+    		txtResult.appendText("Nazione "+c+" è connesso a "+ model.numeroArchi(anno, c)+" stati\n");
+    	}
+    	txtResult.appendText("Numero stati presenti: "+model.numeroVertex(anno));
+    	
+    	txtAnno.clear();
 
     }
 
@@ -40,5 +65,6 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	txtResult.setEditable(false);
     }
 }
