@@ -10,6 +10,8 @@ import it.polito.tdp.borders.model.Country;
 import it.polito.tdp.borders.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -25,6 +27,12 @@ public class FXMLController {
 
     @FXML // fx:id="txtAnno"
     private TextField txtAnno; // Value injected by FXMLLoader
+    
+    @FXML
+    private ComboBox<Country> cmbStato;
+
+    @FXML
+    private Button btnVicini;
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
@@ -52,13 +60,25 @@ public class FXMLController {
     	}
     	txtResult.appendText("Numero stati presenti: "+model.numeroVertex(anno));
     	
+    	cmbStato.getItems().addAll(nazioni);
+    	
     	txtAnno.clear();
 
+    }
+    
+    @FXML
+    void doVicini(ActionEvent event) {
+    	txtResult.clear();
+    	Country c =cmbStato.getValue();
+    	List<Country> vicini= new ArrayList<>(model.vicini(c));
+    	txtResult.appendText(vicini.toString());
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert txtAnno != null : "fx:id=\"txtAnno\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert cmbStato != null : "fx:id=\"cmbStato\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert btnVicini != null : "fx:id=\"btnVicini\" was not injected: check your FXML file 'Scene.fxml'.";
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Scene.fxml'.";
 
     }

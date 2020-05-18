@@ -57,7 +57,7 @@ public class Country {
 	}
 	@Override
 	public String toString() {
-		return "" + nome + "";
+		return nome ;
 	}
 
 	
